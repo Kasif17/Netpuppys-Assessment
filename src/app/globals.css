@@ -1,26 +1,177 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-tis-navy: #0a2342;
+  --color-tis-blue: #1a4a8a;
+  --color-tis-gold: #c9a84c;
+  --color-tis-gold-light: #e8c97a;
+  --color-tis-cream: #faf8f3;
+  --color-tis-gray: #f5f5f5;
+  --color-tis-text: #1a1a2e;
+  --color-tis-muted: #6b7280;
+
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-playfair);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+  --scroll-progress: 0%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #1a1a2e;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+[data-theme="dark"] body {
+  background: #0a0f1e;
+  color: #f0f0f0;
+}
+
+/* Scroll progress bar */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: var(--scroll-progress);
+  background: linear-gradient(90deg, #c9a84c, #e8c97a);
+  z-index: 9999;
+  transition: width 0.1s linear;
+}
+
+/* Custom cursor */
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: #c9a84c;
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.2s ease;
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1.5px solid rgba(201, 168, 76, 0.6);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9997;
+  transform: translate(-50%, -50%);
+  transition: width 0.2s ease, height 0.2s ease, opacity 0.2s ease, border-color 0.2s ease;
+}
+
+.cursor-ring.hovering {
+  width: 56px;
+  height: 56px;
+  border-color: rgba(201, 168, 76, 0.9);
+}
+
+/* Focus styles */
+:focus-visible {
+  outline: 2px solid #c9a84c;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+}
+
+/* Section spacing */
+.section-padding {
+  padding-top: 5rem;
+  padding-bottom: 5rem;
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding-top: 7rem;
+    padding-bottom: 7rem;
+  }
+}
+
+/* Gold underline decoration */
+.gold-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.gold-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: linear-gradient(90deg, #c9a84c, #e8c97a);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.gold-underline:hover::after {
+  transform: scaleX(1);
+}
+
+/* Smooth image loading */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Font utility */
+.font-display {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+/* Dark mode color overrides via data-theme attribute */
+[data-theme="dark"] .bg-white {
+  background-color: #0a0f1e;
+}
+
+[data-theme="dark"] .text-gray-700 {
+  color: #d1d5db;
+}
+
+[data-theme="dark"] .text-gray-600 {
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .text-gray-500 {
+  color: #6b7280;
+}
+
+[data-theme="dark"] .border-gray-100 {
+  border-color: #1f2937;
 }
